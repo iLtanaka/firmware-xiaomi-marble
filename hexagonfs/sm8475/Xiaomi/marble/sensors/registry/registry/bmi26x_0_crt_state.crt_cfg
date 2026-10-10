@@ -1,0 +1,1 @@
+{"bmi26x_0_crt_state.crt_cfg":{"owner":"sns_bmi26x","crt_itvl":{"type":"int","ver":"0","data":"500"},"repeate_on_error":{"type":"int","ver":"0","data":"1"},"reserved":{"type":"int","ver":"0","data":"2"}}}

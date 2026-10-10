@@ -1,0 +1,21 @@
+33171027
+NonUi  Non-wakeup
+0
+2
+qmc630x Magnetometer Non-wakeup
+0
+33171015
+semtech_sx933x_0  Non-wakeup
+1
+8
+proximity Proximity Sensor Wakeup
+1
+4
+bmi26x Gyroscope Non-wakeup
+1
+33171111
+tcs3701 Ambient Light Sensor Raw Data Non-wakeup
+1
+1
+bmi26x Accelerometer Non-wakeup
+1

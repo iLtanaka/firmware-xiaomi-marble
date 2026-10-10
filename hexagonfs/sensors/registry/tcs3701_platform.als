@@ -1,0 +1,1 @@
+{"tcs3701_platform.als":{"owner":"sns_tcs3701","fac_cal":{"type":"grp","ver":"0","data":""},"ch_fac_cal":{"type":"grp","ver":"0","data":""},"ch_fac_cal_original":{"type":"grp","ver":"0","data":""}}}

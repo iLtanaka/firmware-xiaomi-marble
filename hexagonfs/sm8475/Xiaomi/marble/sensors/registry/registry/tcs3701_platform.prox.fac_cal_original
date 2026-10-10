@@ -1,0 +1,1 @@
+{"tcs3701_platform.prox.fac_cal_original":{"owner":"sns_tcs3701","near_threshold":{"type":"flt","ver":"3","data":"340"},"far_threshold":{"type":"flt","ver":"3","data":"180"},"cross_talk":{"type":"flt","ver":"0","data":"80"}}}

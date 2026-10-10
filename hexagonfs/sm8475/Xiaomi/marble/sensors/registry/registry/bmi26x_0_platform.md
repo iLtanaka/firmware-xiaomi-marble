@@ -1,0 +1,1 @@
+{"bmi26x_0_platform.md":{"owner":"bmi26x","config":{"type":"grp","ver":"0","data":""}}}
