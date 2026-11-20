@@ -1,0 +1,35 @@
+# USB gadget/networking for the initramfs debug shell.
+libcomposite
+u_ether
+usb_f_acm
+usb_f_ncm
+usb_f_ecm
+usb_f_rndis
+usb_f_serial
+usb_f_mass_storage
+
+# Qualcomm USB-C / PHY bits that may be needed before rootfs.
+phy-qcom-qmp-ufs
+phy-qcom-qmp-usb
+phy-qcom-qmp-usbc
+phy-nxp-ptn3222
+qcom_usb_vbus-regulator
+nvmem_qcom-spmi-sdam
+typec
+typec_ucsi
+ucsi_glink
+tcpm
+qcom_pmic_tcpm
+pmic_glink
+pmic_glink_altmode
+fsa4480
+nb7vpq904m
+
+# Touch/input candidates for early debugging. These are harmless if absent.
+i2c_qcom_geni
+gpi
+goodix_ts
+goodix_berlin_core
+goodix_berlin_spi
+hid-generic
+hid-multitouch
