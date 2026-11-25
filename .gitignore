@@ -1,5 +1,7 @@
 *.tar.*
 *~
 .DS_Store
-/tweaks/marble-touchboost
+marble-touchboost
 /*.deb
+.build
+.work
