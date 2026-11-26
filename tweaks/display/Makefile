@@ -7,6 +7,7 @@ all: install
 
 build:
 	@echo "Building display tweaks"
+	mkdir "$(BUILDDIR)"
 	gcc -Wall -Wextra -o "$(BUILDDIR)/marble-touchboost" "$(CURDIR)"/marble-touchboost.c
 
 install:
