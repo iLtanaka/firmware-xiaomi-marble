@@ -1,21 +1,28 @@
 DESTDIR ?=
+BUILDDIR := "$(CURDIR)/.build"
 
 .PHONY: all clean build install uninstall
 
 all: install
 
 build:
-	@echo "Nothing to build"
+	@echo "Building display tweaks"
+	gcc -Wall -Wextra -o "$(BUILDDIR)/marble-touchboost" "$(CURDIR)"/marble-touchboost.c
 
 install:
 	@echo "Installing display tweaks"
-	install -Dm644 "$(CURDIR)/HiFi.conf" "$(DESTDIR)/usr/share/alsa/ucm2/Qualcomm/sm8450/xiaomi-marble/HiFi.conf"
-	install -Dm644 "$(CURDIR)/marble.conf" "$(DESTDIR)/usr/share/alsa/ucm2/conf.d/sm8450/SM8475-Xiaomi-Marble.conf"
+	install -Dm755 "$(CURDIR)"/50-marble-display-on.sh "$(DESTDIR)"/usr/share/mkinitfs/hooks/50-marble-display-on.sh
+	install -Dm755 "$(BUILDDIR)/marble-touchboost" "$(DESTDIR)"/usr/libexec/marble-touchboost
+	install -Dm644 "$(CURDIR)"/marble-touchboost.service "$(DESTDIR)"/usr/lib/systemd/system/marble-touchboost.service
+	sudo ln -s ../marble-touchboost.service "$(DESTDIR)"/usr/lib/systemd/system/multi-user.target.wants/marble-touchboost.service
 
 uninstall:
 	@echo "Uninstalling display tweaks"
-	rm -f "$(DESTDIR)/usr/share/alsa/ucm2/Qualcomm/sm8450/xiaomi-marble/HiFi.conf"
-	rm -f "$(DESTDIR)/usr/share/alsa/ucm2/conf.d/sm8450/SM8475-Xiaomi-Marble.conf"
+	rm -f "$(DESTDIR)"/usr/share/mkinitfs/hooks/50-marble-display-on.sh
+	rm -f "$(DESTDIR)"/usr/libexec/marble-touchboost
+	rm -f "$(DESTDIR)"/usr/lib/systemd/system/multi-user.target.wants/marble-touchboost.service
+	rm -f "$(DESTDIR)"/usr/lib/systemd/system/marble-touchboost.service
 
 clean:
-	@echo "Nothing to clean"
+	@echo "Cleaning display tweaks"
+	rm -rf "$(BUILDDIR)"
