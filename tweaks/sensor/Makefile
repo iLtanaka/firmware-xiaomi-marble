@@ -23,7 +23,7 @@ endef
 
 .PHONY: all clean build install check-tools fetch extract uninstall
 
-all: build install
+all: build
 
 check-tools:
 	@for tool in $(REQUIRED_TOOLS); do \
