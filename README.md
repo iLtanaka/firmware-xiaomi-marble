@@ -1,20 +1,52 @@
-# firmware-xiaomi-marble
+# Marble Addons
 
-Proprietary firmware files extracted from official stock firmware of the **Xiaomi Poco F5 / Redmi Note 12 Turbo** (`xiaomi-marble`, Qualcomm Snapdragon 7+ Gen 2 / SM7475).
+Additional files for Linux distribution running on Xiaomi POCO F5 / Redmi Note 12 Turbo, including:
+- Proprietary firmware files extracted from official stock firmware.
+- Services, rules and configurations for different hardwares.
 
-Used by postmarketOS (`firmware-xiaomi-marble` aport) and other mainline Linux distributions.
+## Dependencies
 
----
+These packages should be present in order to build.
+```
+make curl tar sha256sum meson ninja gcc ar strip ranlib valgrind json-c
+```
 
-## Contents
+### Debian
 
-* `marble/`: Device-specific signed firmware images (ADSP, SLPI, Modem, Adreno Zap shader, IPA firmware, amplifier profiles).
-* `generic/`: Generic Qualcomm firmware (Adreno SQE/GMU, WCN6855 Wi-Fi ath11k board files and Bluetooth NVM, Iris VPU firmware).
-* `hexagonfs/`: Sensor registry and calibration data for `hexagonrpcd`.
+```sh
+sudo apt update
+sudo apt install build-essential curl tar coreutils meson ninja-build valgrind libjson-c-dev
+```
 
----
+`build-essential` provides `make`, `gcc`, `ar`, `strip`, and `ranlib`.
 
-## License
+## Build and install
+
+```
+make build
+sudo make install
+```
+
+## Note
+
+All features should work properly after installing. For cellular, additional packages also need to be installed:
+
+### Debian
+
+```sh
+apt-get install \
+	81voltd \
+	libqmi-utils \
+	modemmanager \
+	protection-domain-mapper \
+	qcom-phone-utils \
+	qrtr-tools \
+	rmtfs \
+	tqftpserv
+```
+
+## Credit
+
+All thanks to [Tatsuki Tanaka](https://github.com/iLtanaka) for his great work in porting postmarketOS to Marble.
 
 Proprietary firmware binaries copyright Qualcomm Technologies, Inc. and Xiaomi Inc.
-For device redistribution only.

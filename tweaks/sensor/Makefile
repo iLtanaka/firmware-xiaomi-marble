@@ -1,6 +1,3 @@
-SHELL := /bin/sh
-.SHELLFLAGS := -eu -c
-
 HEXAGONRPC_VERSION := 0.5.0
 HEXAGONRPC_SHA256  := 2173985932ab68d8ac593f9954357123bdbbbe9ba5f1b17a098d9cbcec22c5d5
 HEXAGONRPC_URL     := https://github.com/linux-msm/hexagonrpc/archive/refs/tags/v$(HEXAGONRPC_VERSION).tar.gz
@@ -15,10 +12,6 @@ MESON_CROSS_FILE   := $(BUILD_ROOT)/aarch64-cross.ini
 
 REQUIRED_TOOLS := curl tar sha256sum meson ninja \
 	gcc ar strip ranlib
-
-define log
-	printf '[hexagonrpc] %s\n' $(1) >&2
-endef
 
 .PHONY: all clean build install check-tools fetch extract uninstall
 
@@ -36,7 +29,7 @@ fetch: check-tools $(SOURCE_TARBALL)
 
 $(SOURCE_TARBALL):
 	@mkdir -p "$(BUILD_ROOT)"
-	@$(call log,"Downloading hexagonrpc $(HEXAGONRPC_VERSION)")
+	@echo "Downloading hexagonrpc $(HEXAGONRPC_VERSION)"
 	@curl --fail --location --silent --show-error \
 		"$(HEXAGONRPC_URL)" \
 		--output "$(SOURCE_TARBALL).tmp"
@@ -50,7 +43,7 @@ $(SOURCE_TARBALL):
 extract: fetch $(SRC_DIR)/.extracted
 
 $(SRC_DIR)/.extracted: $(SOURCE_TARBALL)
-	@$(call log,"Extracting source tarball")
+	@echo "Extracting source tarball"
 	@mkdir -p "$(SRC_DIR)"
 	@tar -xzf "$(SOURCE_TARBALL)" --strip-components=1 -C "$(SRC_DIR)"
 	@touch "$@"
@@ -83,7 +76,7 @@ $(MESON_CROSS_FILE): check-tools
 		> "$(MESON_CROSS_FILE)"
 
 build: extract $(MESON_CROSS_FILE)
-	@$(call log,"Configuring and building hexagonrpc $(HEXAGONRPC_VERSION)")
+	@echo "Configuring and building hexagonrpc $(HEXAGONRPC_VERSION)"
 	@if [ ! -f "$(MESON_BUILD_DIR)/build.ninja" ]; then \
 		meson setup "$(MESON_BUILD_DIR)" "$(SRC_DIR)" \
 			--cross-file "$(MESON_CROSS_FILE)" \
@@ -100,7 +93,7 @@ build: extract $(MESON_CROSS_FILE)
 	@ninja -C "$(MESON_BUILD_DIR)"
 
 install: build
-	@$(call log,"Installing hexagonrpc $(HEXAGONRPC_VERSION)")
+	@echo "Installing hexagonrpc $(HEXAGONRPC_VERSION)"
 	@DESTDIR="$(DESTDIR)" ninja -C "$(MESON_BUILD_DIR)" install
 	install -d "$(DESTDIR)/usr/lib/systemd/system/multi-user.target.wants"
 	ln -sfn "../hexagonrpcd-sdsp.service" "$(DESTDIR)/usr/lib/systemd/system/multi-user.target.wants/hexagonrpcd-sdsp.service"
@@ -110,7 +103,7 @@ install: build
 	install -Dm644 "$(CURDIR)/iio-sensor-proxy-marble.conf" "$(DESTDIR)/usr/lib/systemd/system/iio-sensor-proxy.service.d/50-marble.conf"
 
 uninstall:
-	@$(call log,"Uninstalling hexagonrpc $(HEXAGONRPC_VERSION)")
+	@echo "Uninstalling hexagonrpc $(HEXAGONRPC_VERSION)"
 	@if [ -f "$(MESON_BUILD_DIR)/install_manifest.txt" ]; then \
 		while IFS= read -r f; do \
 			rm -f "$(DESTDIR)$$f"; \
@@ -126,5 +119,5 @@ uninstall:
 	-rmdir "$(DESTDIR)/usr/lib/systemd/system/multi-user.target.wants" 2>/dev/null || true
 
 clean:
-	@$(call log,"Cleaning build artifacts")
+	@echo "Cleaning build artifacts"
 	@rm -rf "$(BUILD_ROOT)"
