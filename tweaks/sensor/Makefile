@@ -5,7 +5,6 @@ HEXAGONRPC_VERSION := 0.5.0
 HEXAGONRPC_SHA256  := 2173985932ab68d8ac593f9954357123bdbbbe9ba5f1b17a098d9cbcec22c5d5
 HEXAGONRPC_URL     := https://github.com/linux-msm/hexagonrpc/archive/refs/tags/v$(HEXAGONRPC_VERSION).tar.gz
 
-CROSS_COMPILE      ?=
 DESTDIR            ?=
 
 BUILD_ROOT         := $(CURDIR)/.work/hexagonrpc-$(HEXAGONRPC_VERSION)
@@ -15,7 +14,7 @@ SOURCE_TARBALL     := $(BUILD_ROOT)/hexagonrpc.tar.gz
 MESON_CROSS_FILE   := $(BUILD_ROOT)/aarch64-cross.ini
 
 REQUIRED_TOOLS := curl tar sha256sum meson ninja \
-	$(CROSS_COMPILE)gcc $(CROSS_COMPILE)ar $(CROSS_COMPILE)strip $(CROSS_COMPILE)ranlib
+	gcc ar strip ranlib
 
 define log
 	printf '[hexagonrpc] %s\n' $(1) >&2
@@ -58,16 +57,20 @@ $(SRC_DIR)/.extracted: $(SOURCE_TARBALL)
 
 $(MESON_CROSS_FILE): check-tools
 	@mkdir -p "$(BUILD_ROOT)"
-	@gcc=$$(command -v "$(CROSS_COMPILE)gcc"); \
-	ar=$$(command -v "$(CROSS_COMPILE)ar"); \
-	strip=$$(command -v "$(CROSS_COMPILE)strip"); \
-	ranlib=$$(command -v "$(CROSS_COMPILE)ranlib"); \
+	@gcc=$$(command -v "gcc"); \
+	ar=$$(command -v "ar"); \
+	strip=$$(command -v "strip"); \
+	ranlib=$$(command -v "ranlib"); \
+	pkg_config=$$(command -v "pkg-config"); \
+	cmake=$$(command -v cmake); \
 	printf '%s\n' \
 		'[binaries]' \
 		"c = '$$gcc'" \
 		"ar = '$$ar'" \
 		"strip = '$$strip'" \
 		"ranlib = '$$ranlib'" \
+		"pkg-config = '$$pkg_config'" \
+		"cmake = '$$cmake'" \
 		'' \
 		'[host_machine]' \
 		"system = 'linux'" \
